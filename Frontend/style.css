@@ -1,0 +1,79 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+}
+
+.game-container {
+  width: 600px;
+  margin: 40px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+#number-pool {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.num {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  border: 2px solid #333;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.num.used {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.num.active {
+  background: #d0ffd0;
+}
+
+#expression {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.slot {
+  width: 50px;
+  height: 50px;
+  border: 2px dashed #555;
+  text-align: center;
+  line-height: 50px;
+  cursor: pointer;
+}
+
+.op, .equals {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+#operator-presets {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+#submit {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+}
+
+#result {
+  margin-top: 15px;
+  text-align: center;
+  font-weight: bold;
+}

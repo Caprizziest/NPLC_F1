@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Math Strategy Game</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+
+<div class="game-container">
+
+  <!-- Numbers pool -->
+  <div id="number-pool">
+    <!-- diisi dari JS -->
+  </div>
+
+  <!-- Expression -->
+  <div id="expression">
+    <div class="slot" data-index="0"></div>
+    <span class="op">+</span>
+    <div class="slot" data-index="1"></div>
+    <span class="op">-</span>
+    <div class="slot" data-index="2"></div>
+    <span class="op">*</span>
+    <div class="slot" data-index="3"></div>
+    <span class="equals">=</span>
+    <span id="target">?</span>
+  </div>
+
+  <!-- Operator presets -->
+<div id="operator-presets">
+  <label><input type="radio" name="ops" data-ops="**+"> * * +</label>
+  <label><input type="radio" name="ops" data-ops="+*+"> + * +</label>
+  <label><input type="radio" name="ops" data-ops="++*"> + + *</label>
+  <label><input type="radio" name="ops" data-ops="*+-"> * + -</label>
+  <label><input type="radio" name="ops" data-ops="*-*"> * - *</label>
+  <label><input type="radio" name="ops" data-ops="*+-"> * + -</label>
+  <label><input type="radio" name="ops" data-ops="*+*"> * + *</label>
+  <label><input type="radio" name="ops" data-ops="*--"> * - -</label>
+  <label><input type="radio" name="ops" data-ops="*-*"> * - *</label>
+  <label><input type="radio" name="ops" data-ops="-+*"> - + *</label>
+</div>
+
+  <button id="submit">Kirim</button>
+
+  <div id="result"></div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
