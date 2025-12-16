@@ -20,7 +20,7 @@ def start_game(request):
 
     rand_number = [
         random.randint(MIN_NUMBER, MAX_NUMBER)
-        for _ in range(TOTAL_NUMBERS)
+        for i in range(TOTAL_NUMBERS)
     ]
 
     return JsonResponse({
