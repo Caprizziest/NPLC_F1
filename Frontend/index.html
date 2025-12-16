@@ -28,19 +28,63 @@
     <span id="target">?</span>
   </div>
 
-  <!-- Operator presets -->
 <div id="operator-presets">
-  <label><input type="radio" name="ops" data-ops="**+"> * * +</label>
-  <label><input type="radio" name="ops" data-ops="+*+"> + * +</label>
-  <label><input type="radio" name="ops" data-ops="++*"> + + *</label>
-  <label><input type="radio" name="ops" data-ops="*+-"> * + -</label>
-  <label><input type="radio" name="ops" data-ops="*-*"> * - *</label>
-  <label><input type="radio" name="ops" data-ops="*+-"> * + -</label>
-  <label><input type="radio" name="ops" data-ops="*+*"> * + *</label>
-  <label><input type="radio" name="ops" data-ops="*--"> * - -</label>
-  <label><input type="radio" name="ops" data-ops="*-*"> * - *</label>
-  <label><input type="radio" name="ops" data-ops="-+*"> - + *</label>
-</div>
+    <h3>Pilih Pola Operator:</h3>
+    <table class="presets-table">
+      <tr>
+        <td data-ops="**+">
+          <label>
+            <input type="radio" name="ops" data-ops="**+">
+            <div class="operator-cell">× × +</div>
+          </label>
+        </td>
+        <td data-ops="+*+">
+          <label>
+            <input type="radio" name="ops" data-ops="+*+">
+            <div class="operator-cell">+ × +</div>
+          </label>
+        </td>
+        <td data-ops="++*">
+          <label>
+            <input type="radio" name="ops" data-ops="++*">
+            <div class="operator-cell">+ + ×</div>
+          </label>
+        </td>
+        <td data-ops="*+-">
+          <label>
+            <input type="radio" name="ops" data-ops="*+-">
+            <div class="operator-cell">× + -</div>
+          </label>
+        </td>
+      </tr>
+      <tr>
+        <td data-ops="*-*">
+          <label>
+            <input type="radio" name="ops" data-ops="*-*">
+            <div class="operator-cell">× - ×</div>
+          </label>
+        </td>
+        <td data-ops="*+*">
+          <label>
+            <input type="radio" name="ops" data-ops="*+*">
+            <div class="operator-cell">× + ×</div>
+          </label>
+        </td>
+        <td data-ops="*--">
+          <label>
+            <input type="radio" name="ops" data-ops="*--">
+            <div class="operator-cell">× - -</div>
+          </label>
+        </td>
+        <td data-ops="-+*">
+          <label>
+            <input type="radio" name="ops" data-ops="-+*">
+            <div class="operator-cell">- + ×</div>
+          </label>
+        </td>
+      </tr>
+    </table>
+  </div>
 
   <button id="submit">Kirim</button>
 

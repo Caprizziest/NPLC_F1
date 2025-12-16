@@ -81,9 +81,20 @@ $("#submit").on("click", function () {
 
   const diff = Math.abs(target - result);
 
-  if (diff <= 10 && result <= target) {
-    $("#result").text(`BENAR! Hasil ${result}`);
-  } else {
-    $("#result").text(`SALAH. Hasil ${result}`);
-  }
+const minAllowed = target - 10;
+const maxAllowed = target + 10;
+
+if (result >= minAllowed && result <= maxAllowed) {
+  $("#result").html(`
+    BENAR! Hasil: ${result}<br>
+    Target: ${target}<br>
+    Range diterima: ${minAllowed} - ${maxAllowed}
+  `);
+} else {
+  $("#result").html(`
+    SALAH! Hasil: ${result}<br>
+    Target: ${target}<br>
+    Range diterima: ${minAllowed} - ${maxAllowed}
+  `);
+}
 });
