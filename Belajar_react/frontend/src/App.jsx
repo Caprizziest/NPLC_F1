@@ -127,3 +127,5 @@ const handleSlotClick = (slotIndex) => {
 }
 
 export default App;
+
+// belajar bang baru pindah UI
