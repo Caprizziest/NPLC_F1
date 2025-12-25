@@ -1,6 +1,8 @@
 from django.urls import path
-from .views import start_game
+from .views import *
 
 urlpatterns = [
     path('start/', start_game, name='start_game'),
+    path('submit/', submit_result, name='submit_result'),
+    path('leaderboard/', get_leaderboard, name='get_leaderboard'),
 ]

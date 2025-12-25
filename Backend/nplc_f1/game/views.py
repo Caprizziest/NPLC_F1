@@ -4,7 +4,7 @@ import random
 import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-
+from .models import *
 
 MIN_NUMBER = 3
 MAX_NUMBER = 9
@@ -27,3 +27,27 @@ def start_game(request):
         "target": rand_target,
         "numbers": rand_number
     })
+
+
+@csrf_exempt
+def submit_result(request):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'POST only'}, status=405)
+    data = json.loads(request.body)
+    score.objects.create(
+        team_name=data.get('team_name'),
+        score=data.get('score')
+    )
+    return JsonResponse({'message': 'Success'}, status=200)
+
+@csrf_exempt
+def get_leaderboard(request):
+    if request.method != 'GET':
+        return JsonResponse({'error': 'GET only'}, status=405)
+    top_10_score = score.objects.all().order_by('-score')[:10].values('team_name', 'score', 'created_at')
+    return JsonResponse(list(top_10_score), safe=False, status=200)
+
+
+# user masuk input nama tim dll
+# buat leaderboard
+# sistem scoring, a la "quizziz". Poin dihitung berdasarkan seberapah jauh result dengan target.
