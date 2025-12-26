@@ -1,6 +1,19 @@
   import { useState, useEffect } from 'react';
   import './App.css';
 
+
+const PRESETS = [
+  { id: 'p1', ops: ['*', '*', '+'], label: '× × +' },
+  { id: 'p2', ops: ['+', '*', '+'], label: '+ × +' },
+  { id: 'p3', ops: ['+', '+', '*'], label: '+ + ×' },
+  { id: 'p4', ops: ['*', '+', '-'], label: '× + -' },
+  { id: 'p5', ops: ['*', '-', '*'], label: '× - ×' },
+  { id: 'p6', ops: ['*', '+', '*'], label: '× + ×' },
+  { id: 'p7', ops: ['*', '-', '-'], label: '× - -' },
+  { id: 'p8', ops: ['-', '+', '*'], label: '- + ×' },
+];
+
+
   function App() {
 
   const [target, setTarget] = useState(0);
@@ -9,6 +22,8 @@
   const [selectedPoolIndex, setSelectedPoolIndex] = useState(null);
   const [slots, setSlots] = useState([null, null, null, null]);
 
+  const [selectedOps, setSelectedOps] = useState(['?', '?', '?']);
+  const [feedback, setFeedback] = useState("");
 
 useEffect(() => {
   const fetchData = async () => {
@@ -76,6 +91,48 @@ const handlePoolClick = (index) => {
 
 
 
+const handleSubmit = () => {
+  // 1. Check if any slot is empty (null)
+  if (slots.some(s => s === null)) {
+    setFeedback("Semua slot angka harus diisi!");
+    return;
+  }
+
+  // 2. Check if operators are selected (default is '?')
+  if (selectedOps[0] === '?') {
+    setFeedback("Pilih pola operator dulu!");
+    return;
+  }
+
+  try {
+    // 3. Construct the formula string
+    // We map the slots to get values, and zip them with operators
+    const values = slots.map(s => s.value);
+    const ops = selectedOps;
+    
+    // Template Literal: Clean and readable
+    const formulaStr = `${values[0]} ${ops[0]} ${values[1]} ${ops[1]} ${values[2]} ${ops[2]} ${values[3]}`;
+
+    // 4. Execute safely
+    // We explicitly cast the result to a Number just to be sure
+    const result = Number(new Function('return ' + formulaStr)());
+    
+    // 5. Check against Target
+    const min = target - 10;
+    const max = target + 10;
+
+    if (result >= min && result <= max) {
+      setFeedback(`BENAR! Hasil: ${result} (Target: ${target})`);
+      // Optional: Add score here later
+    } else {
+      setFeedback(`SALAH! Hasil: ${result} (Target: ${target})`);
+    }
+  } catch (e) {
+    console.error(e);
+    setFeedback("Error dalam perhitungan.");
+  }
+};
+
     return(
     <div className="game-container">
 
@@ -92,78 +149,54 @@ const handlePoolClick = (index) => {
     </div>
 
 <div id="expression">
-      <div className="slot" onClick={() => handleSlotsClick(0)}>{slots[0]?.value}</div>
-      <span className="op">+</span>
-      <div className="slot" onClick={() => handleSlotsClick(1)}>{slots[1]?.value}</div>
-      <span className="op">-</span>
-      <div className="slot" onClick={() => handleSlotsClick(2)}>{slots[2]?.value}</div>
-      <span className="op">*</span>
-      <div className="slot" onClick={() => handleSlotsClick(3)}>{slots[3]?.value}</div>
-      <span className="equals">=</span>
-      <span id="target">{target}</span>
-    </div>
-
-  <div id="operator-presets">
-    <h3>Pilih Pola Operator:</h3>
-    <table className="presets-table">
-      <tr>
-        <td>
-          <label>
-            <input type="radio" name="ops" value="p1" /> 
-            <div className="operator-cell">× × +</div>
-          </label>
-        </td>
-        <td>
-          <label>
-            <input type="radio" name="ops" value="p2" />
-            <div className="operator-cell">+ × +</div>
-          </label>
-        </td>
-        <td>
-          <label>
-            <input type="radio" name="ops" value="p3" />
-            <div className="operator-cell">+ + ×</div>
-          </label>
-        </td>
-        <td>
-          <label>
-            <input type="radio" name="ops" value="p4" />
-            <div className="operator-cell">× + -</div>
-          </label>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <label>
-            <input type="radio" name="ops" value="p5" />
-            <div className="operator-cell">× - ×</div>
-          </label>
-        </td>
-        <td>
-          <label>
-            <input type="radio" name="ops" value="p6" />
-            <div className="operator-cell">× + ×</div>
-          </label>
-        </td>
-        <td>
-          <label>
-            <input type="radio" name="ops" value="p7" />
-            <div className="operator-cell">× - -</div>
-          </label>
-        </td>
-        <td>
-          <label>
-            <input type="radio" name="ops" value="p8" />
-            <div className="operator-cell">- + ×</div>
-          </label>
-        </td>
-      </tr>
-    </table>
+  <div className="slot" onClick={() => handleSlotsClick(0)}>
+    {slots[0]?.value}
   </div>
 
-    <button id="submit">Kirim</button>
+  {/* Operator 1 */}
+  <span className="op">{selectedOps[0].replace('*', '×')}</span>
 
-    <div id="result"></div>
+  <div className="slot" onClick={() => handleSlotsClick(1)}>
+    {slots[1]?.value}
+  </div>
+
+  {/* Operator 2 */}
+  <span className="op">{selectedOps[1].replace('*', '×')}</span>
+
+  <div className="slot" onClick={() => handleSlotsClick(2)}>
+     {slots[2]?.value}
+  </div>
+
+  {/* Operator 3 */}
+  <span className="op">{selectedOps[2].replace('*', '×')}</span>
+
+  <div className="slot" onClick={() => handleSlotsClick(3)}>
+    {slots[3]?.value}
+  </div>
+
+  <span className="equals">=</span>
+  <span id="target">{target}</span>
+</div>
+
+<div id="operator-presets">
+  <h3>Pilih Pola Operator:</h3>
+  <div className="presets-grid"> 
+    {PRESETS.map((preset) => (
+      <label key={preset.id} className="preset-label">
+        <input
+          type="radio"
+          name="ops"
+          value={preset.id}
+          onChange={() => setSelectedOps(preset.ops)}
+        />
+        <div className="preset-display">{preset.label}</div>
+      </label>
+    ))}
+  </div>
+</div>  
+
+<button id="submit" onClick={handleSubmit}>Kirim</button>
+<div id="result">{feedback}</div>
 
   </div>
     );
