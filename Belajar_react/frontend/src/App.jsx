@@ -25,8 +25,9 @@ const PRESETS = [
   const [selectedOps, setSelectedOps] = useState(['?', '?', '?']);
   const [feedback, setFeedback] = useState("");
 
-useEffect(() => {
-  const fetchData = async () => {
+  const [score, setScore] = useState(0);
+
+const fetchNewRound = async () => {
     try {
       const res = await fetch('http://127.0.0.1:8000/api/game/start/');
       const data = await res.json();
@@ -40,13 +41,20 @@ useEffect(() => {
       }));
 
       setPoolNumbers(numberObjects);
+      
+      // RESET BOARD FOR NEW ROUND
+      setSlots([null, null, null, null]);
+      setSelectedOps(['?', '?', '?']);
+      setFeedback(""); 
+      
     } catch (error) {
       console.error('Error fetching game data:', error);
     }
   };
-  fetchData(); 
-}, []); 
 
+  useEffect(() => {
+    fetchNewRound(); 
+  }, []);
 
 
 const handleSlotsClick = (slotIndex) => {
@@ -92,49 +100,68 @@ const handlePoolClick = (index) => {
 
 
 const handleSubmit = () => {
-  // 1. Check if any slot is empty (null)
-  if (slots.some(s => s === null)) {
+  // --- VALIDATION (Keep this the same) ---
+  if (slots.some(slot => slot === null)) {
     setFeedback("Semua slot angka harus diisi!");
     return;
   }
-
-  // 2. Check if operators are selected (default is '?')
   if (selectedOps[0] === '?') {
     setFeedback("Pilih pola operator dulu!");
     return;
   }
 
+  // --- CALCULATION ---
+  const v = slots.map(s => s.value); 
+  const o = selectedOps;
+  const formulaStr = `${v[0]} ${o[0]} ${v[1]} ${o[1]} ${v[2]} ${o[2]} ${v[3]}`;
+  
+  let result = 0;
   try {
-    // 3. Construct the formula string
-    // We map the slots to get values, and zip them with operators
-    const values = slots.map(s => s.value);
-    const ops = selectedOps;
-    
-    // Template Literal: Clean and readable
-    const formulaStr = `${values[0]} ${ops[0]} ${values[1]} ${ops[1]} ${values[2]} ${ops[2]} ${values[3]}`;
-
-    // 4. Execute safely
-    // We explicitly cast the result to a Number just to be sure
-    const result = Number(new Function('return ' + formulaStr)());
-    
-    // 5. Check against Target
-    const min = target - 10;
-    const max = target + 10;
-
-    if (result >= min && result <= max) {
-      setFeedback(`BENAR! Hasil: ${result} (Target: ${target})`);
-      // Optional: Add score here later
-    } else {
-      setFeedback(`SALAH! Hasil: ${result} (Target: ${target})`);
-    }
+    result = new Function('return ' + formulaStr)();
   } catch (e) {
-    console.error(e);
-    setFeedback("Error dalam perhitungan.");
+    setFeedback("Error menghitung rumus");
+    return;
   }
+
+  // --- SCORING SYSTEM ---
+  const distance = Math.abs(target - result);
+  let pointsEarned = 0;
+
+  // 1. Logic: Outside Range = 0 pts
+  if (distance > 10) {
+    setFeedback(`SALAH! Hasil: ${result} (Selisih: ${distance}). Tidak dapat poin.`);
+  } 
+  // 2. Logic: Inside Range = Calculate Points
+  else {
+    if (distance <= 1) {
+      pointsEarned = 100;
+    } else {
+      // Formula: 100 - 5 points for every step away beyond 1
+      pointsEarned = 100 - ((distance - 1) * 5);
+    }
+    
+    // Update Score
+    setScore(prevScore => prevScore + pointsEarned);
+    setFeedback(`BENAR! Hasil: ${result}. Poin: +${pointsEarned}`);
+    
+    // AUTOMATICALLY START NEXT ROUND
+    // We use setTimeout so the user can see "Correct!" for 1.5 seconds before it changes
+  }
+      setTimeout(() => {
+      fetchNewRound();
+    }, 1500);
 };
 
     return(
     <div className="game-container">
+
+      {/* SCOREBOARD HEADER */}
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+      <h1>NPLC F1</h1>
+      <div className="score-box" style={{ background: '#333', color: '#fff', padding: '10px 20px', borderRadius: '8px' }}>
+        <h2>Score: {score}</h2>
+      </div>
+    </div>
 
 <div id="number-pool">
       {poolNumbers.map((numObj, index) => (
@@ -194,6 +221,8 @@ const handleSubmit = () => {
     ))}
   </div>
 </div>  
+
+
 
 <button id="submit" onClick={handleSubmit}>Kirim</button>
 <div id="result">{feedback}</div>
