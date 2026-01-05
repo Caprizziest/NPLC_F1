@@ -129,3 +129,44 @@
       grid-template-columns: repeat(4, 1fr); 
       gap: 10px; 
     }
+
+/* Overlay Gelap di belakang modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85); /* Latar belakang gelap transparan */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Kotak Modal itu sendiri */
+.modal-content {
+  background: #2a2a2a;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  color: white;
+  border: 2px solid #646cff; /* Aksen warna React */
+  width: 400px;
+  box-shadow: 0 0 25px rgba(100, 108, 255, 0.4);
+}
+
+.modal-content h2 { margin-top: 0; color: #fff; }
+.modal-content p { color: #ccc; margin-bottom: 20px; }
+
+.modal-content input {
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #555;
+  background: #333;
+  color: white;
+  margin-bottom: 20px;
+  width: 80%;
+  font-size: 1.1em;
+  text-align: center;
+}
