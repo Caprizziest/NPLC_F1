@@ -7,9 +7,6 @@ class score(models.Model):
     score = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        managed = False
-        db_table = 'score'
 
 def __str__(self):
         # Kita format tampilan agar muncul Jam:Menit:Detik

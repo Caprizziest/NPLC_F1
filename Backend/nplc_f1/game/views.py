@@ -18,10 +18,12 @@ def start_game(request):
     
     rand_target = random.choice(TARGET)
 
-    rand_number = [
-        random.randint(MIN_NUMBER, MAX_NUMBER)
-        for i in range(TOTAL_NUMBERS)
-    ]
+    # rand_number = [
+    #     random.randint(MIN_NUMBER, MAX_NUMBER)
+    #     for i in range(TOTAL_NUMBERS)
+    # ]
+
+    rand_number = random.sample(range(MIN_NUMBER, MAX_NUMBER + 1), TOTAL_NUMBERS)
 
     return JsonResponse({
         "target": rand_target,
@@ -48,6 +50,12 @@ def get_leaderboard(request):
     return JsonResponse(list(top_10_score), safe=False, status=200)
 
 
-# user masuk input nama tim dll
-# buat leaderboard
-# sistem scoring, a la "quizziz". Poin dihitung berdasarkan seberapah jauh result dengan target.
+@csrf_exempt
+def reset_leaderboard(request):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'POST only'}, status=405)
+    
+    # Menghapus SEMUA data di tabel score
+    score.objects.all().delete()
+    
+    return JsonResponse({'message': 'Leaderboard reset success'}, status=200)
