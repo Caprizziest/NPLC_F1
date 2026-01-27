@@ -28,6 +28,8 @@ const PRESETS = [
   { id: 'p6', ops: ['*', '+', '*'], label: '× + ×' },
   { id: 'p7', ops: ['*', '-', '-'], label: '× - -' },
   { id: 'p8', ops: ['-', '+', '*'], label: '- + ×' },
+  { id: 'p9', ops: ['+', '-', '+'], label: '+ - +' },
+  { id: 'p10', ops: ['-', '*', '-'], label: '- × -' },
 ];
 
 export default function Game() {
