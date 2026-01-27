@@ -1,97 +1,13 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <title>NPLC</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-</head>
-<body>
-
-<div class="game-container">
-
-  <!-- Numbers pool -->
-  <div id="number-pool">
-    <!-- diisi dari JS -->
-  </div>
-
-  <!-- Expression -->
-  <div id="expression">
-    <div class="slot" data-index="0"></div>
-    <span class="op">+</span>
-    <div class="slot" data-index="1"></div>
-    <span class="op">-</span>
-    <div class="slot" data-index="2"></div>
-    <span class="op">*</span>
-    <div class="slot" data-index="3"></div>
-    <span class="equals">=</span>
-    <span id="target">?</span>
-  </div>
-
-<div id="operator-presets">
-  <h3>Pilih Pola Operator:</h3>
-  <table class="presets-table">
-    <tr>
-      <td>
-        <label>
-          <input type="radio" name="ops" value="p1"> 
-          <div class="operator-cell">× × +</div>
-        </label>
-      </td>
-      <td>
-        <label>
-          <input type="radio" name="ops" value="p2">
-          <div class="operator-cell">+ × +</div>
-        </label>
-      </td>
-      <td>
-        <label>
-          <input type="radio" name="ops" value="p3">
-          <div class="operator-cell">+ + ×</div>
-        </label>
-      </td>
-      <td>
-        <label>
-          <input type="radio" name="ops" value="p4">
-          <div class="operator-cell">× + -</div>
-        </label>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <label>
-          <input type="radio" name="ops" value="p5">
-          <div class="operator-cell">× - ×</div>
-        </label>
-      </td>
-      <td>
-        <label>
-          <input type="radio" name="ops" value="p6">
-          <div class="operator-cell">× + ×</div>
-        </label>
-      </td>
-      <td>
-        <label>
-          <input type="radio" name="ops" value="p7">
-          <div class="operator-cell">× - -</div>
-        </label>
-      </td>
-      <td>
-        <label>
-          <input type="radio" name="ops" value="p8">
-          <div class="operator-cell">- + ×</div>
-        </label>
-      </td>
-    </tr>
-  </table>
-</div>
-
-  <button id="submit">Kirim</button>
-
-  <div id="result"></div>
-
-</div>
-
-<script src="script.js"></script>
-</body>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>frontend</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
